@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteTask, parseTaskInput, TaskInputError, updateTask } from "@/lib/tasks";
+import {
+  deleteTask,
+  getTask,
+  parseTaskInput,
+  TaskInputError,
+  updateTask,
+} from "@/lib/tasks";
 
 export const runtime = "nodejs";
 
@@ -10,6 +16,27 @@ function validId(id: string): boolean {
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
+
+export async function GET(_request: NextRequest, context: RouteContext) {
+  const { id } = await context.params;
+  if (!validId(id)) {
+    return NextResponse.json({ error: "This task could not be found." }, { status: 404 });
+  }
+
+  try {
+    const task = await getTask(id);
+    if (!task) {
+      return NextResponse.json({ error: "This task could not be found." }, { status: 404 });
+    }
+    return NextResponse.json(task);
+  } catch (error) {
+    console.error("Failed to load task:", error);
+    return NextResponse.json(
+      { error: "This task could not be loaded. Please try again." },
+      { status: 500 },
+    );
+  }
+}
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
   const { id } = await context.params;

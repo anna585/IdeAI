@@ -1,6 +1,6 @@
 # IdeAI
 
-IdeAI is a small, multi-page task manager built with Next.js, TypeScript, and SQLite. Tasks have a required title and an optional description. The task list, create form, edit form, and delete confirmation each have their own URL. Navigation uses ordinary links, and search and task changes use standard HTML form submissions with full-page responses and redirects.
+IdeAI is a small task manager built with Next.js, TypeScript, and SQLite. The home page is the task workspace: search, create, edit, and delete tasks without leaving the list. Create and edit open in a side panel; delete uses a confirmation dialog. Tasks have a required title and an optional description.
 
 ## Run locally
 
@@ -25,13 +25,11 @@ npm start
 
 SQLite uses write-ahead logging and full synchronous writes. Keep the `data` directory on persistent local storage and back it up with the application stopped so the database remains consistent. This setup is intended for local development or a single persistent Node.js server; it is not suitable for serverless instances or multiple app servers sharing ephemeral storage.
 
-The task list returns 30 results per page. Search matches task titles and descriptions using a GET form. Create, edit, and delete forms submit to a server route and redirect to the task list after success; titles are limited to 200 characters and descriptions to 10,000 characters. JSON API routes are also available under `/api/tasks`.
+The task list returns 30 results per page and searches titles and descriptions through the task API. JSON CRUD endpoints are available at `GET/POST /api/tasks` and `GET/PATCH/DELETE /api/tasks/[id]`. Input is validated on the server; titles are limited to 200 characters and descriptions to 10,000 characters.
 
 ## Project structure
 
-- `src/app/page.tsx` — server-rendered task list
-- `src/app/tasks/` — create, edit, delete confirmation, and form submission routes
-- `src/components/task-list.tsx` — task list, search, and pagination
-- `src/components/task-form.tsx` — native HTML create and edit forms
+- `src/app/page.tsx` — server-rendered home page and initial task data
+- `src/components/task-workspace.tsx` — home list, search, pagination, and task side-panel/dialog interactions
 - `src/app/api/tasks/` — task collection and item API routes
 - `src/lib/tasks.ts` — SQLite setup, validation, and task queries

@@ -1,5 +1,5 @@
 import { SiteShell } from "@/components/site-shell";
-import { TaskList } from "@/components/task-list";
+import { TaskWorkspace } from "@/components/task-workspace";
 import { listTasks } from "@/lib/tasks";
 
 type HomeProps = {
@@ -15,8 +15,7 @@ function firstValue(value: string | string[] | undefined): string | undefined {
 export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const requestedSearch = firstValue(params.q)?.trim() ?? "";
-  const searchIsTooLong = requestedSearch.length > 200;
-  const search = searchIsTooLong ? "" : requestedSearch;
+  const search = requestedSearch.length <= 200 ? requestedSearch : "";
   const requestedPage = Number(firstValue(params.page) ?? "1");
   const page =
     Number.isSafeInteger(requestedPage) && requestedPage >= 1 && requestedPage <= 1_000_000
@@ -26,26 +25,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <SiteShell>
-      <section className="hero-row" aria-labelledby="page-title">
-        <div>
-          <p className="eyebrow">A little more clarity</p>
-          <h1 id="page-title">Your tasks</h1>
-          <p className="hero-copy">
-            Keep the important things in view, and make room for your next good idea.
-          </p>
-        </div>
-        <a className="button button-primary" href="/tasks/new">
-          <span aria-hidden="true">+</span>
-          New task
-        </a>
-      </section>
-      <TaskList
-        page={page}
-        search={search}
-        searchIsTooLong={searchIsTooLong}
-        taskPage={taskPage}
-      />
-      <p className="footer-note">One thing at a time is still progress.</p>
+      <TaskWorkspace initialPage={taskPage} initialSearch={search} />
     </SiteShell>
   );
 }

@@ -215,15 +215,15 @@ h1 {
   width: min(100%, 360px);
 }
 
-.search-field > svg {
+.search-icon {
   position: absolute;
   top: 50%;
   left: 13px;
-  width: 17px;
-  height: 17px;
   color: #87948e;
   transform: translateY(-50%);
   pointer-events: none;
+  font-size: 22px;
+  line-height: 1;
 }
 
 .search-input,
@@ -480,54 +480,142 @@ h1 {
   font-size: 13px;
 }
 
-.page-heading {
-  margin-bottom: 27px;
+.panel-backdrop,
+.confirm-backdrop {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  background: rgb(19 31 25 / 38%);
+  backdrop-filter: blur(2px);
 }
 
-.page-heading .hero-copy {
-  margin-top: 0;
+.panel-backdrop {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.form-card {
-  padding: 26px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
+.side-panel {
+  width: min(100%, 490px);
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px;
   background: var(--paper);
-  box-shadow: var(--shadow);
+  box-shadow: -16px 0 60px rgb(10 25 17 / 16%);
+  animation: slide-in 180ms ease-out;
 }
 
-.form-heading {
-  margin-bottom: 24px;
+@keyframes slide-in {
+  from {
+    transform: translateX(18px);
+    opacity: 0.7;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.form-heading h2 {
-  margin-bottom: 8px;
-  font-size: 22px;
-  letter-spacing: -0.6px;
+.side-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
 }
 
-.form-heading > p:last-child {
-  margin-bottom: 0;
+.side-panel-header .eyebrow {
+  margin-bottom: 9px;
+}
+
+.side-panel-header h2 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: -0.8px;
+}
+
+.panel-intro {
+  margin: 13px 0 28px;
   color: var(--muted);
   font-size: 13px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
-.task-form {
-  max-width: 620px;
-}
-
-.form-hint {
-  margin: 6px 0 0;
+.close-button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: white;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 24px;
+  line-height: 1;
 }
 
-.form-footer {
+.close-button:hover:not(:disabled) {
+  background: #f7f9f7;
+  color: var(--ink);
+}
+
+.panel-footer {
   display: flex;
   justify-content: flex-end;
   gap: 9px;
-  margin-top: 23px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.confirm-backdrop {
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.confirm-dialog {
+  width: min(100%, 410px);
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 24px 80px rgb(10 25 17 / 22%);
+}
+
+.delete-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 15px;
+  place-items: center;
+  border-radius: 11px;
+  background: #fff0ee;
+  color: var(--red);
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.confirm-dialog h2 {
+  margin-bottom: 8px;
+  font-size: 19px;
+  letter-spacing: -0.4px;
+}
+
+.confirm-dialog > p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.confirm-dialog > p strong {
+  color: var(--ink);
+}
+
+.task-form {
+  width: 100%;
 }
 
 .button-danger {
@@ -538,11 +626,6 @@ h1 {
 
 .button-danger:hover {
   background: #983737;
-}
-
-.delete-form {
-  padding-top: 8px;
-  border-top: 1px solid var(--line);
 }
 
 .sr-only {
@@ -636,12 +719,12 @@ h1 {
     min-width: 61px;
   }
 
-  .form-card {
-    padding: 21px 17px;
+  .side-panel {
+    padding: 25px 20px;
   }
 
-  .form-footer {
-    flex-wrap: wrap;
+  .confirm-dialog {
+    padding: 22px 19px;
   }
 }
 
