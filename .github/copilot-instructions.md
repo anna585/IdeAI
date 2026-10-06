@@ -1,0 +1,1 @@
+For every application code change, follow the `npm-test-lint-feedback-loop` skill in `.github/skills/npm-test-lint-feedback-loop/SKILL.md`. Do not report an application change as complete until `npm run test` and `npm run lint` have both passed against the final code.
